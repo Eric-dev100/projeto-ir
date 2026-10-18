@@ -460,6 +460,13 @@ def gerar() -> list[Esperado]:
     g.append(Esperado("23_cupom_farmacia_desbotado.jpg", "O mesmo cupom com a tinta desbotada", "imagem", FARMACIA["nome"], FARMACIA["cnpj"], True,
                       f"{ANO}-06-28", 117.3, TITULAR["nome"], "nao_dedutivel", legibilidade="ilegivel",
                       alertas=["ilegivel", "papel_termico", "nao_dedutivel", "duplicado"]))
+
+    # Desde 01/01/2025, profissionais de saúde que atendem como pessoa física
+    # emitem o recibo pelo Receita Saúde (IN RFB nº 2.240/2024). Os recibos em
+    # papel dos autônomos deste conjunto devem gerar esse alerta.
+    for e in g:
+        if e.emitente in (PSICOLOGA["nome"], FISIO["nome"]):
+            e.alertas.append("receita_saude")
     return g
 
 

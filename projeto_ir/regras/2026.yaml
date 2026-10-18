@@ -1,0 +1,101 @@
+# Regras fiscais usadas pelo Projeto IR para o ano-calendário 2026
+# (declaração entregue em 2027).
+#
+# SITUAÇÃO: rascunho montado em 18/10/2026 a partir das regras da declaração
+# de 2026 (ano-calendário 2025), as mais recentes publicadas. Precisa de
+# revisão quando a Receita publicar as regras da declaração de 2027.
+#
+# Fontes consultadas:
+# - Receita Federal, Manual MIR, "Despesas dedutíveis":
+#   https://www.gov.br/receitafederal/pt-br/assuntos/meu-imposto-de-renda/preenchimento/manual-mir/pagamentos-ou-doacoes/despesas-dedutiveis
+# - Receita Federal, Perguntas e Respostas IRPF 2026:
+#   https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/perguntas-e-respostas/dirpf/p-r-irpf-2026-v1-00-2026-04-23.pdf
+# - IN RFB nº 2.240/2024 (Receita Saúde): recibo eletrônico obrigatório desde
+#   01/01/2025 para profissionais de saúde que atendem como pessoa física.
+
+ano_calendario: 2026
+situacao: rascunho
+revisado_por: null
+
+educacao:
+  # Limite anual por pessoa (titular, cada dependente ou alimentando).
+  # Valor da declaração de 2026; confirmar para 2027.
+  limite_anual_por_pessoa: 3561.50
+
+# Palavras procuradas no texto do comprovante, sem diferenciar maiúsculas e
+# acentos. A ordem de verificação é: nao_dedutivel, plano_saude, saude,
+# educacao. Assim "mensalidade de curso de inglês" cai em não dedutível antes
+# de ser confundida com educação.
+categorias:
+  nao_dedutivel:
+    - academia
+    - musculacao
+    - ginastica
+    - natacao
+    - idiomas
+    - curso de ingles
+    - curso de espanhol
+    - aula particular
+    - aulas particulares
+    - cursinho
+    - preparatorio
+    - material escolar
+    - uniforme
+    - transporte escolar
+    - drogaria
+    - farmacia
+    - medicamento
+  plano_saude:
+    - plano de saude
+    - operadora
+    - informe de pagamentos
+  saude:
+    - consulta
+    - psicoterapia
+    - psicolog
+    - fisioterap
+    - fonoaudiolog
+    - terapia ocupacional
+    - odontolog
+    - dentista
+    - medic
+    - clinica
+    - hospital
+    - laboratori
+    - exame
+    - radiolog
+    - protese
+    - aparelho ortodontico
+  educacao:
+    - educacao infantil
+    - creche
+    - pre-escola
+    - ensino fundamental
+    - ensino medio
+    - graduacao
+    - pos-graduacao
+    - mestrado
+    - doutorado
+    - especializacao
+    - ensino tecnico
+    - mensalidade escolar
+    - faculdade
+
+# Uma palavra de "nao_dedutivel" deixa de valer quando o comprovante também
+# tem um destes textos. Remédios só são dedutíveis dentro da conta hospitalar.
+excecoes_nao_dedutivel:
+  medicamento: [conta hospitalar, internacao]
+
+# Registros profissionais que indicam um profissional de saúde autônomo.
+# Recibo desses profissionais emitido como pessoa física, desde 2025, deve vir
+# do Receita Saúde.
+registros_saude: [CRM, CRO, CRP, CREFITO, CREFONO, COFFITO]
+
+# Textos que indicam que o recibo foi emitido pelo Receita Saúde.
+marcas_receita_saude:
+  - receita saude
+
+# Campos sem os quais o comprovante não serve para a declaração.
+# Fonte: Manual MIR (nome, endereço e CPF ou CNPJ do prestador, data,
+# pagador e beneficiário). Endereço e assinatura ainda não são verificados.
+campos_obrigatorios: [emitente, documento_emitente, valor, data]

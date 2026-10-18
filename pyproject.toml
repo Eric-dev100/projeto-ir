@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "projeto-ir"
+version = "0.1.0"
+description = "Organiza comprovantes do Imposto de Renda e alerta o que pode dar problema"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "GPL-3.0-only"}
+authors = [{name = "Eric Gabriel Aguiar de Alencar"}]
+dependencies = [
+    "pdfplumber>=0.11",
+    "PyYAML>=6.0",
+    "openpyxl>=3.1",
+    "pandas>=2.0",
+    "streamlit>=1.40",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "reportlab>=4", "numpy>=1.26", "Pillow>=10"]
+
+[project.scripts]
+projeto-ir = "projeto_ir.__main__:main"
+projeto-ir-avaliar = "projeto_ir.avaliacao:main"
+
+[tool.setuptools.packages.find]
+include = ["projeto_ir*"]
+
+[tool.setuptools.package-data]
+projeto_ir = ["regras/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

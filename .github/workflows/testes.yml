@@ -1,0 +1,28 @@
+name: Testes
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  testes:
+    name: Testes (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Instalar o projeto
+        run: python -m pip install -e ".[dev]"
+      - name: Rodar os testes
+        run: python -m pytest -v
+      - name: Relatório de acerto contra o gabarito
+        run: |
+          python -m projeto_ir.avaliacao tests/exemplos
+          python -m projeto_ir.avaliacao tests/exemplos_variados
